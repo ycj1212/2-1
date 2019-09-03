@@ -23,7 +23,7 @@ int is_full(ArrayListType *L) {
 }
 element get_entry(ArrayListType *L, int pos) {
 	if (pos < 0 || pos >= L->size)
-		error("À§Ä¡ ¿À·ù");
+		error("ìœ„ì¹˜ ì˜¤ë¥˜");
 	return L->array[pos];
 }
 void print_list(ArrayListType *L) {
@@ -34,7 +34,7 @@ void print_list(ArrayListType *L) {
 
 void insert_last(ArrayListType *L, element item) {
 	if (L->size >= MAX_LIST_SIZE)
-		error("¸®½ºÆ® ¿À¹öÇÃ·Î¿ì");
+		error("ë¦¬ìŠ¤íŠ¸ ì˜¤ë²„í”Œë¡œìš°");
 	L->array[L->size++] = item;
 }
 void insert(ArrayListType *L, int pos, element item) {
@@ -47,7 +47,7 @@ void insert(ArrayListType *L, int pos, element item) {
 }
 void insert_first(ArrayListType *L, element item) {
 	if (L->size >= MAX_LIST_SIZE)
-		error("¸®½ºÆ® ¿À¹öÇÃ·Î¿ì");
+		error("ë¦¬ìŠ¤íŠ¸ ì˜¤ë²„í”Œë¡œìš°");
 	for (int i = (L->size - 1); i >= 0; i--)
 		L->array[i + 1] = L->array[i];
 	L->array[0] = item;
@@ -57,7 +57,7 @@ void insert_first(ArrayListType *L, element item) {
 element delete(ArrayListType *L, int pos) {
 	element item;
 	if (pos < 0 || pos >= L->size)
-		error("À§Ä¡ ¿À·ù");
+		error("ìœ„ì¹˜ ì˜¤ë¥˜");
 	item = L->array[pos];
 	for (int i = pos; i < (L->size - 1); i++)
 		L->array[i] = L->array[i + 1];

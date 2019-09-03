@@ -2,8 +2,8 @@
 
 ## - **Book** : Discrete Mathematics and Its Applications [7th Edition]
 
-## contents
+## Contents
 
-- [Chapter3](dm_3.md)
+- [Chapter3](dm3.md)
 
-- [Chapter6](dm_6.md)
+- [Chapter6](dm6.md)
