@@ -4,7 +4,7 @@
 
 - 스택의 구현
     - 정수 배열 스택 프로그램
-    ```
+    ```c
     #include <stdio.h>
     #include <stdlib.h>
     #define SIZE 100
@@ -59,7 +59,7 @@
     ```
     
     - 구조체 배열 스택 프로그램
-    ```
+    ```c
     #include <stdio.h>
     #include <stdlib.h>
     #define SIZE 100
@@ -123,12 +123,12 @@
     ```
 
     - 동적 배열 스택 프로그램
-    ```
+    ```c
     
     ```
 
     - 스택의 응용 : 괄호 검사 프로그램
-    ```
+    ```c
     #include <stdio.h>
     #include <stdlib.h>
     #include <string.h>
@@ -175,7 +175,7 @@
     ```
 
     - 스택의 응용 : 후위 표기 수식의 계산
-    ```
+    ```c
     #include <stdio.h>
     #include <stdlib.h>
     #define SIZE 100
@@ -220,7 +220,7 @@
     ```
 
     - 중위표기수식을 후위표기수식으로 변환
-    ```
+    ```c
     #include <stdio.h>
     #include <stdlib.h>
     #define SIZE 100
@@ -282,6 +282,6 @@
     ```
 
     - 스택의 응용 : 미로 문제
-    ```
+    ```c
     ㅁㅇㄴㄹ
     ```
