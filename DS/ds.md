@@ -13,7 +13,9 @@
 - [Chapter5 : Queue](ds5.md)
 
 - [Chapter6 : Linked List 1](ds6.md)
-
+    - [ArrayListType](test.c)
+    - [ListNode](test1.c)
+    - [Order](test2.c)
 - [Chapter7 : Linked List 2](ds7.md)
 
 - [Chapter8 : Tree](ds8.md)
