@@ -64,3 +64,68 @@ ADT 8.1 우선순위 큐 추상자료형
 
 `key(부모 노드) <= key(자식 노드)`
 
+### 히프의 높이
+
+n개의 노드를 가지고 있는 히프의 높이는?
+= log₂n+1
+
+### 히프의 구현
+
+배열을 이용하여 구현(인덱스 1부터 시작)
+
+- 왼쪽 자식노드의 인덱스 = 부모노드 인덱스 * 2
+- 오른쪽 자식노드의 인덱스 = 부모노드 인덱스 * 2 + 1
+- 부모노드의 인덱스 = 자식노드 인덱스 / 2
+
+### 히프 삽입 연산
+
+1. 추가할 노드를 마지막 노드 뒤에 삽입
+2. 부모 노드와 비교
+3. 반복
+
+```c
+void insert_heap(heap *h, element item)
+{
+    if(is_full(h))
+        error();
+    int i;
+    i = ++(h->size);
+    while((i != 1) && (item > h->heap[i/2]))
+    {
+        h->heap[i] = h->heap[i/2];
+        i /= 2;
+    }
+    h->heap[i] = item;
+}
+```
+
+### 히프 삭제 연산
+
+1. 루트 노드 저장 후 삭제
+2. 마지막 노드를 루트 노드로 이동
+3. 이동한 노드를 자식 노드와 비교
+4. 반복
+5. 저장한 루트 노드 반환
+
+```c
+element delete_heap(heap *h)
+{
+    element temp, item;
+    int i, j;
+    
+    item = h->heap[1];
+    temp = h->heap[(h->size)--];
+    i = 1;
+    j = 2;
+    while(j <= h->size && temp < h->data[j])
+    {
+        if(h->heap[j+1] && (h->heap[j] < h->heap[j+1]))
+            j += 1;
+        h->heap[i] = h->heap[j];
+        i = j;
+        j *= 2;
+    }
+    h->heap[i] = temp;
+    return item;
+}
+```
