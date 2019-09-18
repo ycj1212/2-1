@@ -1,73 +1,128 @@
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <math.h>
 
-/* 단어사전을 구축하라 : 적어도 30개 이상 단어 포함(파일 입출력 가능)
-   사용자의 실패 시도 횟수를 6으로 제한
-   사용자가 시도한 알파벳 나열
-   게임반복
-*/
-
 using namespace std;
+
+void read_file(string str[], int n);
+int check_continue();
 
 int main()
 {
-  char ch;
-  
-  string solution;
-  string list[] = 
-  {
-    "the",
-    "c++",
-    "programming",
-    "language"
-  };
-  int n = rand() % 4;
-  solution = list[n];
+	char ch;
 
-  string guess(solution.length(), '_');
+	string list[50];
+	read_file(list, 50);
 
-  int life = 6;
-  bool failed;
-  string let = "";
+	string solution;
+	int n = rand() % 50;
+	solution = list[n];
 
-  while(1)
-  {
-    cout << "The word now looks like this: " << guess << endl;
-    cout << "you have " << life << " guesses left (tried letters:" << let << ")\n" << endl;
+	string guess(solution.length(), '_');
 
-    cout << "Guess a letter: ";
-    cin >> ch;
-    cout << "You guessed: " << ch << endl;
+	int life = 6;
+	bool failed;
+	string let = "";
 
-    let = let + " " + ch;
-    failed = true;
+	while (1)
+	{
+		cout << "The word now looks like this: " << guess << endl;
+		cout << "you have " << life << " guesses left (tried letters:" << let << ")\n" << endl;
 
-    for(int i=0; i<solution.length(); i++)
-    {
-      if(ch == solution[i])
-      {
-        guess[i] = ch;
-        failed = false;
-      }
-    }
+		cout << "Guess a letter: ";
+		cin >> ch;
+		cout << "You guessed: " << ch << endl;
 
-    if(failed == true)
-      life--;
-    
-    if(life <= 0)
-    {
-      cout << "실패하였습니다!";
-      break;
-    }
-    
-    if(solution == guess)
-    {
-      cout << solution << endl;
-      cout << "성공하였습니다!";
-      break;
-    }
-  }
+		let = let + " " + ch;
+		failed = true;
 
-  return 0;
+		for (int i = 0; i < solution.length(); i++)
+		{
+			if (ch == solution[i])
+			{
+				guess[i] = ch;
+				failed = false;
+			}
+		}
+
+		if (failed == true)
+			life--;
+
+		if (life <= 0)
+		{
+			cout << "Fail!";
+			if (check_continue() == 1)
+			{
+				n = rand() % 4;
+				solution = list[n];
+				guess = "";
+				for (int i = 0; i < solution.length(); i++)
+				{
+					guess += '_';
+				}
+				life = 6;
+				let = "";
+			}
+			else
+				break;
+		}
+
+		if (solution == guess)
+		{
+			cout << solution << endl;
+			cout << "Success!";
+			if (check_continue() == 1)
+			{
+				n = rand() % 4;
+				solution = list[n];
+				guess = "";
+				for (int i = 0; i < solution.length(); i++)
+				{
+					guess += '_';
+				}
+				life = 6;
+				let = "";
+			}
+			else
+				break;
+		}
+	}
+	
+	return 0;
+}
+
+void read_file(string str[], int n) {
+	ifstream is("dic.txt", ios::in);
+
+	if (!is)
+	{
+		cerr << "file open error" << endl;
+		exit(1);
+	}
+
+	int idx = 0;
+
+	while (!is.eof())
+	{
+		getline(is, str[idx++]);
+	}
+}
+
+int check_continue()
+{
+	char ch;
+
+	while (1)
+	{
+		cout << "To be continue? (y/n): ";
+		cin >> ch;
+
+		if (ch == 'y')
+			return 1;
+		else if (ch == 'n')
+			return 0;
+		else
+			cout << "Check again!" << endl;
+	}
 }
