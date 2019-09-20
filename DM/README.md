@@ -4,6 +4,6 @@
 
 ## Contents
 
-- [Chapter3](dm3.md)
+- [Chapter3](./dm3.md)
 
-- [Chapter6](dm6.md)
+- [Chapter6](./dm6.md)

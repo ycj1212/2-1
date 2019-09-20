@@ -4,18 +4,18 @@
 
 ### 2학년
 
-[Discrete Mathematics](DM/dm.md)
+[Discrete Mathematics](./DM/README.md)
 
-[Web Programming](WP/wp.md)
+[Web Programming](./WP/README.md)
 
-[JAVA](JAVA/java.md)
+[JAVA](./JAVA/README.md)
 
-[CPP](CPP/cpp.md)
+[CPP](./CPP/README.md)
 
-[C Language](CL/cl.md)
+[C Language](./CL/README.md)
 
-[Data Structure](DS/ds.md)
+[Data Structure](./DS/README.md)
 
-[Computer Systems](CS/cs.md)
+[Computer Systems](./CS/README.md)
 
-[Digital Logic](DL/dl.md)
+[Digital Logic](./DL/README.md)
