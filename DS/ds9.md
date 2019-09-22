@@ -129,3 +129,12 @@ element delete_heap(heap *h)
     return item;
 }
 ```
+
+## 히프 정렬
+
+```c
+void heapSort(element a[], int n)
+{
+    
+}
+```
