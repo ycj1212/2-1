@@ -22,6 +22,13 @@
         - [account.cpp](./account.cpp)
         - [main.cpp](./main_account.cpp)
 
-- [과제](./report.cpp)
-
 - [4주차](./oop4.md)
+
+## Reports
+
+- 과제1
+    - [report1](./report.cpp)
+
+- 과제2
+    - [report2_1](./report2_1.cpp)
+    - [report2_2](./report2_2.cpp)
