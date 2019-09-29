@@ -23,3 +23,5 @@
 - [Chapter9 : Priority Queue](./ds9.md)
 
 - [Chapter10 : Graph](./ds10.md)
+
+- [Chapter12 : Sort](./ds12.md)
