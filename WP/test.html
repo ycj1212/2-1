@@ -4,8 +4,12 @@
 <head>
     <title>hello</title>
     <base href="https://www.github.com/" />
+    <style>
+        p { color: green; background-color: yellow; border: 2px solid red; }
+        * { background-color: black; }
+    </style>
+    <link type="test/css" rel="stylesheet" href="mystyle.css">
 </head>
-
 <body>
 <h1>headline</h1>
 <pre>
@@ -73,5 +77,31 @@
     </tr>
 </table>
 
+<audio src="music.mp3" autoplay controls>existed file</audio>
+<video src="https://media.w3.org/2010/05/sintel/trailer.mp4" autoplay controls>existed file</video>
+<br/>
+<iframe src="http://localhost:8080/MyHomepage.html" width="600" height="600"></iframe>
+<div style="height:20px; background-color:yellow"></div>
+<form action="input.jsp" method="post">
+    이메일: <input type="email" name="email"><br/>
+    <input type="text" name="text"></br>
+    <fileset>
+            <legend>123123</legend>
+    <input type="radio" name="gender" checked>남성</br>
+    <input type="radio" name="gender">여성</br>
+    <input type="checkbox" name="fruits" value="apple" checked>Apple</br>
+    <input type="checkbox" name="fruits" value="grape">Grape</br>
+    </fileset>
+    <input type="submit" value="submit">
+    <input type="reset" value="reset">
+    <input type="text" name="1">
+    <input type="text" name="2">
+    <input type="button" value="버튼" onclick="alert(document.querySelector(`body > form > input[type=text]:nth-child(15)`).value)">
+    <select name="cars">
+        <option value="1">값1</option>
+        <option value="2" selected>값2</option>
+        <option value="3">값3</option>
+    </select>
+</form>
 </body>
 </html>
