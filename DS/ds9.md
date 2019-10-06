@@ -135,6 +135,17 @@ element delete_heap(heap *h)
 ```c
 void heapSort(element a[], int n)
 {
-    
+    for(int i=0; i<n; i++) {
+        insert_heap(heap, a[i]);
+    }
+    for(int i=0; i<n; i++) {
+        a[i] = delete_heap(heap);
+    }
 }
 ```
+
+## 허프만 코드
+
+각 글자의 빈도수로 내용을 코드로 압축
+
+- Huffman code program ([Encoding](./report1.c) / [Decoding](./report2.c))
