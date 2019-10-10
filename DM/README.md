@@ -7,3 +7,4 @@
 - [Chapter3](./dm3.md)
 
 - [Chapter6](./dm6.md)
+    - [Computer Project](./dm1.c)
