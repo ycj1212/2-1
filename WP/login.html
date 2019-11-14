@@ -2,19 +2,31 @@
 <html>
     <head>
         <title>login</title>
+        <link type="text/css" rel="stylesheet" href="mystyle.css">
+        <style>
+            label {
+                display: inline-block;
+                width: 30px;
+            }
+            fieldset {
+                margin-bottom: 10px;
+            }
+        </style>
     </head>
     <body>
         <h1>로그인</h1>
         <hr/>
         <form>
-        <p>
-        ID:
-        <input type="text"><br>
-        PW:
-        <input type="text"><br>
-        <input type="submit" value="로그인">
-        <input type="button" value="회원가입" onclick="location.href='join.html'">
-        </p>
+            <fieldset>
+                <p>
+                <label>ID</label>
+                <input type="text"><br>
+                <label>PW</label>
+                <input type="text"><br>
+                </p>
+            </fieldset>
+            <input type="submit" value="로그인">
+            <input type="button" value="회원가입" onclick="location.href='join.html'">
         </form>
     </body>
 </html>

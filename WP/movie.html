@@ -1,63 +1,75 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Reservation of Movie</title>
-</head>
-<body>
-    <h1>Movie</h1>
-    <hr/>
-    <pre>
+    <head>
+        <title>Reservation of Movie</title>
+        <link type="text/css" rel="stylesheet" href="mystyle.css">
+    </head>
+    <body>
+        <header>
+            <h1>Yang's Cinema</h1>
+            <hr/>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="login.html"><i>로그인</i></a></li>
+                <li><a href="movie_screening_schedule.html"><i>상영시간표</i></a></li>
+                <li><a href="movie_reservation.html"><i>예매</i></a></li>
+                <li id="preparing"><a href="" onclick="alert('준비중입니다.')"><i>게시판</i></a></li>
+            </ul>
+        </nav>
+        <section id="main">
+            <pre>
     안녕하세요~
-    영화 예매 사이트입니다!
+    <em>영화 예매 사이트</em>입니다!
     찾아주셔서 감사합니다~^^
-    </pre>
-    <h3>목록</h3>
-    <ul>
-        <li><a href="login.html"><i>로그인</i></a></li>
-        <li><a href="movie_screening_schedule.html"><i>상영시간표</i></a></li>
-        <li><a href="movie_reservation.html"><i>예매</i></a></li>
-        <li><a href="" onclick="alert('준비중입니다.')"><i>게시판</i></a></li>
-    </ul>
-    <h3>순위</h3>
-    <caption>&lt;현재상영중&gt;</caption>
-    <table border="1">
-        <tr>
-            <th colspan="5">예매 순위</th>
-        </tr>
-        <tr>
-            <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=159806&mid=43477" target="iframe1"><img src="movie01.jpg" alt="image01"></a></td>
-            <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=177909&mid=43414" target="iframe1"><img src="movie02.jpg" alt="image02"></a></td>
-            <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=187629&mid=43711" target="iframe1"><img src="movie03.jpg" alt="image03"></a></td>
-            <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=172836&mid=43722" target="iframe1"><img src="movie04.jpg" alt="image04"></a></td>
-            <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=159887&mid=43468" target="iframe1"><img src="movie05.jpg" alt="image05"></a></td>
-        </tr>
-        <tr>
-            <td align="center">1위</td>
-            <td align="center">2위</td>
-            <td align="center">3위</td>
-            <td align="center">4위</td>
-            <td align="center">5위</td>
-        </tr>
-        <tr>
-            <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=96951&mid=43331" target="iframe1"><img src="movie06.jpg" alt="image06"></a></td>
-            <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=144787&mid=43712" target="iframe1"><img src="movie07.jpg" alt="image07"></a></td>
-            <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=187366&mid=43274" target="iframe1"><img src="movie08.jpg" alt="image08"></a></td>
-            <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=183110&mid=43553" target="iframe1"><img src="movie09.jpg" alt="image09"></a></td>
-            <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=183994&mid=43737" target="iframe1"><img src="movie10.jpg" alt="image10"></a></td>
-        </tr>
-        <tr>
-            <td align="center">6위</td>
-            <td align="center">7위</td>
-            <td align="center">8위</td>
-            <td align="center">9위</td>
-            <td align="center">10위</td>
-        </tr>
-    </table>
-    <caption><b>-------------- !!이미지를 클릭하면 예고편을 볼 수 있습니다. --------------</b></caption>
-    <br>
-    <iframe name="iframe1" width="800" height="400"></iframe>
-    <br>
-    <caption>&lt;배경음악&gt;</caption><br>
-    <audio src="bgm.mp3" autoplay controls></audio>
-</body>
+            </pre>
+            <audio src="bgm.mp3" autoplay controls></audio>
+            <p id="caption_audio">&lt;배경음악&gt;</p>
+            <br>
+            <h3>순위</h3>
+            <div id="column">
+                <caption>&lt;현재상영중&gt;</caption>
+                <table>
+                    <tr>
+                        <th colspan="5">예매 순위</th>
+                    </tr>
+                    <tr>
+                        <td><a href="https://www.youtube.com/embed/aWOpAX4s_Ss" target="iframe1"><img src="movie01.jpg" alt="image01"></a></td>
+                        <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=177909&mid=43414" target="iframe1"><img src="movie02.jpg" alt="image02"></a></td>
+                        <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=187629&mid=43711" target="iframe1"><img src="movie03.jpg" alt="image03"></a></td>
+                        <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=172836&mid=43722" target="iframe1"><img src="movie04.jpg" alt="image04"></a></td>
+                        <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=159887&mid=43468" target="iframe1"><img src="movie05.jpg" alt="image05"></a></td>
+                    </tr>
+                    <tr>
+                        <td>1위</td>
+                        <td>2위</td>
+                        <td>3위</td>
+                        <td>4위</td>
+                        <td>5위</td>
+                    </tr>
+                    <tr>
+                        <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=96951&mid=43331" target="iframe1"><img src="movie06.jpg" alt="image06"></a></td>
+                        <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=144787&mid=43712" target="iframe1"><img src="movie07.jpg" alt="image07"></a></td>
+                        <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=187366&mid=43274" target="iframe1"><img src="movie08.jpg" alt="image08"></a></td>
+                        <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=183110&mid=43553" target="iframe1"><img src="movie09.jpg" alt="image09"></a></td>
+                        <td><a href="https://movie.naver.com/movie/bi/mi/mediaView.nhn?code=183994&mid=43737" target="iframe1"><img src="movie10.jpg" alt="image10"></a></td>
+                    </tr>
+                    <tr>
+                        <td>6위</td>
+                        <td>7위</td>
+                        <td>8위</td>
+                        <td>9위</td>
+                        <td>10위</td>
+                    </tr>
+                    <caption id="caption_b"><b>------------ !!이미지를 클릭하면 예고편을 볼 수 있습니다. ------------</b></caption>
+                </table>
+                <br>
+                <iframe name="iframe1" width="500" height="300"></iframe>
+                <br>
+            </div>
+        </section>
+        <footer>
+            soonchunhyang university
+        </footer>
+    </body>
 </html>

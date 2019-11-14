@@ -1,0 +1,108 @@
+html {
+    height: 100%;
+}
+header h1 {
+    padding-bottom: 5px;
+    background-color: yellow;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 50px;
+    text-shadow: 5px 5px 5px grey;
+    animation: 2s title;
+    animation-iteration-count: 10;
+    text-align: center;
+}
+@keyframes title {
+    0% {background-color: red;}
+    25% {background-color: yellow;}
+    50% {background-color: blue;}
+    75% {background-color: green;}
+    100% {background-color: purple;}
+}
+pre {
+    float: left;
+    font-size: 20px;
+}
+#caption_audio {
+    display: inline;
+    float: right;
+}
+audio {
+    float: right;
+}
+h3 {
+    margin-top: 130px;
+}
+body {
+    background-image: url("darkness.png");
+    background-repeat: repeat;
+    word-wrap: break-word;
+    color: white;
+    position: relative;
+    height: 100%;
+}
+ul {
+    list-style: none;
+    text-align: center;
+    padding: 10px 0;
+    background-color: yellow;
+    border: 1px solid red; border-bottom: 1px solid red; padding: 10px 0;
+    clear: both;
+}
+ul li {
+    display: inline;
+    padding: 0 30px; letter-spacing: 10px;
+    font-size: 30px;
+}
+#preparing {
+    text-decoration: line-through;
+}
+footer {
+    text-transform: capitalize;
+}
+#column {
+    column-count: 2;
+    column-gap: 30px;
+}
+table {
+    background: grey;
+    border: 3px skyblue;
+    border-style: dotted;
+    border-width: thick;
+    border-radius: 10px;
+    border-collapse: collapse;
+}
+table th {
+    font-size: 30px;
+}
+table td {
+    text-align: center;
+}
+table a:hover {
+    opacity: 0.4;
+    backface-visibility: visible;
+    transform-origin: 50% 42%;
+    transform: perspective(500px) rotateY(59deg) rotateX(0deg);
+}
+iframe {
+    box-shadow: 20px 20px 20px honeydew;
+    border: 50px solid transparent;
+    border-image: url("pattern.jpg") 50 50 round;
+    resize: both;
+    background-image: url("curtain.jpg");
+    background-size: 500px 300px;
+}
+a:link {
+    text-decoration: none;
+}
+a:hover {
+    font-weight: bold;
+}
+#caption_b {
+    caption-side: bottom;
+}
+footer {
+    position: fixed;
+    width: 100%;
+    height: 30px;
+    bottom: 0;
+}

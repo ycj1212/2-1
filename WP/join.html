@@ -2,25 +2,38 @@
 <html>
     <head>
         <title>join</title>
+        <link type="text/css" rel="stylesheet" href="mystyle.css">
+        <style>
+            fieldset {
+                margin-bottom: 10px;
+            }
+            label {
+                display: inline-block;
+                width: 80px;
+            }
+        </style>
     </head>
     <body>
         <h1>회원가입</h1>
         <hr/>
         <form>
-        <p>
-        ID:
-        <input type="text">
-        <input type="button" value="중복확인"><br>
-        PW:
-        <input type="password"><br>
-        이름:
-        <input type="text"><br>
-        이메일:
-        <input type="email"><br>
-        전화번호:
-        <input type="tel"><br>
-        <input type="submit" value="회원가입">
-        </p>
+            <fieldset>
+                <legend>회원정보입력</legend>
+                <p>
+                <label>ID</label>
+                <input type="text">
+                <input type="button" value="중복확인"><br>
+                <label>PW</label>
+                <input type="password"><br>
+                <label>이름</label>
+                <input type="text"><br>
+                <label>이메일</label>
+                <input type="email"><br>
+                <label>전화번호</label>
+                <input type="tel"><br>
+                </p>
+            </fieldset>
+            <input type="submit" value="회원가입">
         </form>
     </body>
 </html>

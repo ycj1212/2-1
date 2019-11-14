@@ -2,34 +2,46 @@
 <html>
     <head>
         <title>reservation</title>
+        <link type="text/css" rel="stylesheet" href="mystyle.css">
+        <style>
+            label {
+                display: inline-block;
+                width: 80px;
+            }
+            fieldset {
+                margin-bottom: 10px;
+            }
+        </style>
     </head>
     <body>
         <h1>영화예매</h1>
         <hr/>
         <form>
-        <caption>영화제목</caption>
-        <select>
-            <option>장사리 : 잊혀진 영웅들</option>
-            <option>나쁜 녀석들: 더 무비</option>
-            <option>양자물리학</option>
-            <option>원스 어폰 어 타임... 인 할리우드</option>
-            <option>애드 아스트라</option>
-        </select>
-        <br>
-        <caption>극장위치</caption>
-        <select>
-            <option>인천</option>
-            <option>서울</option>
-            <option>경기</option>
-            <option>경남</option>
-            <option>전남</option>
-        </select>
-        <br>
-        <caption>인원 수 </caption>
-        <input type="number" min="1" max="100" step="1" value="1">
-        <br>
-        <caption>날짜</caption>
-        <input type="date"><br>
+            <fieldset>
+                <label>영화제목</label>
+                <select>
+                    <option>장사리 : 잊혀진 영웅들</option>
+                    <option>나쁜 녀석들: 더 무비</option>
+                    <option>양자물리학</option>
+                    <option>원스 어폰 어 타임... 인 할리우드</option>
+                    <option>애드 아스트라</option>
+                </select>
+                <br>
+                <label>극장위치</label>
+                <select>
+                    <option>인천</option>
+                    <option>서울</option>
+                    <option>경기</option>
+                    <option>경남</option>
+                    <option>전남</option>
+                </select>
+                <br>
+                <label>인원 수 </label>
+                <input type="number" min="1" max="100" step="1" value="1">
+                <br>
+                <label>날짜</label>
+                <input type="date"><br>
+            </fieldset>
         <input type="submit" value="예매">
         </form>
     </body>
