@@ -25,7 +25,7 @@ int main() {
 
 - #include <stdio.h>
 
-   : 전처리기(preprocessor) : 미리 처리한다.
+   : 전처리기(preprocessor) - 미리 처리한다.
 
 - int
    
@@ -37,7 +37,7 @@ int main() {
 
 - printf
 
-   : 표준함수, 라이브러리 함수
+   : 링커(linker) - 표준함수, 라이브러리 함수
 
 `변수, 함수 => SYMBOL... 즉, 주소`
 
