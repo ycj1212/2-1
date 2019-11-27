@@ -31,9 +31,18 @@
             var leftPressed = false;
             
             // Brick
-            var brickRowCount = 5;
-            var brickColumnCount = 3;
+            /*
+            var brickRowCount = 6;
+            var brickColumnCount = 6;
             var brickWidth = 75;
+            var brickHeight = 20;
+            var brickPadding = 10;
+            var brickOffsetTop = 30;
+            var brickOffsetLeft = 30;
+            */
+            var brickRowCount = 7;
+            var brickColumnCount = 4;
+            var brickWidth = 50;
             var brickHeight = 20;
             var brickPadding = 10;
             var brickOffsetTop = 30;
@@ -42,6 +51,7 @@
             // Option
             var score = 0;
             var lives = 3;
+            var stage = 1;
 
             // Create and Init bricks
             var bricks = [];
@@ -91,14 +101,21 @@
                     for(var r=0; r<brickRowCount; r++) {
                         var b = bricks[c][r];
                         if(b.status == 1) {
-                            if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
-                            dy = -dy;
-                            b.status = 0;
-                            score++;
-                            if(score == brickRowCount*brickColumnCount) {
-                                alert("YOU WIN, CONGRATS!");
-                                document.location.reload();
-                            }
+                            if(x + ballRadius > b.x && x - ballRadius < b.x + brickWidth && y+ballRadius > b.y && y-ballRadius < b.y+brickHeight) {
+                                dy = -dy;
+                                b.status = 0;
+                                score++;
+                                if(score == brickRowCount*brickColumnCount) {
+                                    alert("YOU WIN, CONGRATS!");
+                                    stage++;
+                                    if(stage == 2) {
+                                        stage_2();
+                                    }
+                                    else if(stage == 3) {
+                                        stage_3();
+                                    }
+                                    drawBricks();
+                                }
                             }
                         }
                     }
@@ -121,6 +138,26 @@
                 ctx.closePath();
             }
 
+            /*
+            function drawBricks() {
+                for(var c=0; c<brickColumnCount; c++) {
+                    for(var r=0; r<brickRowCount; r++) {
+                        if(bricks[c][r].status == 1) {
+                            var brickX = (r*(brickWidth+brickPadding))+brickOffsetLeft;
+                            var brickY = (c*(brickHeight+brickPadding))+brickOffsetTop;
+                            bricks[c][r].x = brickX;
+                            bricks[c][r].y = brickY;
+                            ctx.beginPath();
+                            ctx.rect(brickX, brickY, brickWidth, brickHeight);
+                            ctx.fillStyle = "#0095DD";
+                            ctx.fill();
+                            ctx.closePath();
+                        }
+                    }
+                }
+            }
+            */
+            
             function drawBricks() {
                 for(var c=0; c<brickColumnCount; c++) {
                     for(var r=0; r<brickRowCount; r++) {
@@ -151,6 +188,12 @@
                 ctx.fillText("Lives: "+lives, canvas.width-65, 20);
             }
 
+            function drawStage() {
+                ctx.font = "16px Arial";
+                ctx.fillStyle = "#0095DD";
+                ctx.fillText("Stage "+stage, canvas.width/2-25, 20);
+            }
+
             function draw() {
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 drawBricks();
@@ -158,6 +201,7 @@
                 drawPaddle();
                 drawScore();
                 drawLives();
+                drawStage();
                 collisionDetection();
 
                 if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
@@ -166,8 +210,24 @@
                 if(y + dy < ballRadius) {
                     dy = -dy;
                 }
-                else if(y + dy > canvas.height-ballRadius) {
+                else if(y + dy > canvas.height-(ballRadius+ballRadius/2)) {
                     if(x > paddleX && x < paddleX + paddleWidth) {
+                        score = (paddleX + paddleWidth) - x;
+                        // 74~1
+                        // 74~38    // 왼쪽
+                        // 37~1     // 오른쪽
+                        if(score > (paddleWidth/2)) {
+                            dx = (score/paddleWidth)*4;
+                            if(dx >= 0) {
+                                dx = -dx;
+                            }
+                        } else {
+                            dx = (4/score);
+                            if(dx < 0) {
+                                dx = -dx;
+                            }
+                        }
+                        score = dx;
                         dy = -dy;
                     }
                     else {
@@ -179,8 +239,8 @@
                         else {
                             x = canvas.width/2;
                             y = canvas.height-30;
-                            dx = 3;
-                            dy = -3;
+                            dx = 4;
+                            dy = -4;
                             paddleX = (canvas.width-paddleWidth)/2;
                         }
                     }
@@ -196,6 +256,25 @@
                 x += dx;
                 y += dy;
                 requestAnimationFrame(draw);
+            }
+
+            function stage_2() {
+                score = 0;
+                x = canvas.width/2;
+                y = canvas.height-30;
+                paddleX = (canvas.width-paddleWidth)/2;
+                brickRowCount = 2;
+                brickColumnCount = 2;
+                for(var c=0; c<brickColumnCount; c++) {
+                    bricks[c] = [];
+                    for(var r=0; r<brickRowCount; r++) {
+                        bricks[c][r] = { x: 0, y: 0, status: 1 };
+                    }
+                }
+            }
+            
+            function stage_3() {
+                
             }
 
             draw();
