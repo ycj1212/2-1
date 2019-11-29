@@ -31,18 +31,9 @@
             var leftPressed = false;
             
             // Brick
-            /*
-            var brickRowCount = 6;
-            var brickColumnCount = 6;
+            var brickRowCount = 5;
+            var brickColumnCount = 3;
             var brickWidth = 75;
-            var brickHeight = 20;
-            var brickPadding = 10;
-            var brickOffsetTop = 30;
-            var brickOffsetLeft = 30;
-            */
-            var brickRowCount = 7;
-            var brickColumnCount = 4;
-            var brickWidth = 50;
             var brickHeight = 20;
             var brickPadding = 10;
             var brickOffsetTop = 30;
@@ -102,6 +93,9 @@
                         var b = bricks[c][r];
                         if(b.status == 1) {
                             if(x + ballRadius > b.x && x - ballRadius < b.x + brickWidth && y+ballRadius > b.y && y-ballRadius < b.y+brickHeight) {
+                                if(y+ballRadius > b.y && y-ballRadius < b.y+brickHeight){
+                                    dx = -dx;
+                                }
                                 dy = -dy;
                                 b.status = 0;
                                 score++;
@@ -212,22 +206,21 @@
                 }
                 else if(y + dy > canvas.height-(ballRadius+ballRadius/2)) {
                     if(x > paddleX && x < paddleX + paddleWidth) {
-                        score = (paddleX + paddleWidth) - x;
+                        var xx = (paddleX + paddleWidth) - x;
                         // 74~1
                         // 74~38    // 왼쪽
                         // 37~1     // 오른쪽
-                        if(score > (paddleWidth/2)) {
-                            dx = (score/paddleWidth)*4;
+                        if(xx > (paddleWidth/2)) {
+                            dx = (xx/paddleWidth)*4;
                             if(dx >= 0) {
                                 dx = -dx;
                             }
                         } else {
-                            dx = (4/score);
+                            dx = (4/xx)*10;
                             if(dx < 0) {
                                 dx = -dx;
                             }
                         }
-                        score = dx;
                         dy = -dy;
                     }
                     else {
@@ -239,8 +232,8 @@
                         else {
                             x = canvas.width/2;
                             y = canvas.height-30;
-                            dx = 4;
-                            dy = -4;
+                            dx = 2;
+                            dy = -2;
                             paddleX = (canvas.width-paddleWidth)/2;
                         }
                     }
@@ -259,6 +252,9 @@
             }
 
             function stage_2() {
+                brickRowCount = 7;
+                brickColumnCount = 4;
+                brickWidth = 50;
                 score = 0;
                 x = canvas.width/2;
                 y = canvas.height-30;
