@@ -2,24 +2,21 @@
 <html>
     <head>
         <meta charset="utf-8">
-        <title>Gamedev Canvas Workshop</title>
+        <title>벽돌깨기게임</title>
         <style>
             body {
                 background-image: url('./background1.jpg');
-                background-size: 115%;                      
-                background-repeat: no-repeat;
-                background-position: center center;
+                background-size: 105%;
             }
             canvas {
                 background: #000000; 
-                display: block; 
-                margin: 0 auto;
-                margin-top: 50pt;
-                margin-bottom: 50px;
+                display: block;
+                margin: auto;
             }
             button {
-                margin: auto;
                 display: block;
+                margin: auto;
+                margin-top: 50px;
                 width: 60px;
                 height: 60px;
             }
@@ -32,7 +29,8 @@
             // Canvas
             var canvas = document.getElementById("myCanvas");
             var ctx = canvas.getContext("2d");
-            
+            var startButton = document.getElementById('start');
+
             // Ball
             var ballRadius = 10;
             var x = canvas.width/2;
@@ -57,15 +55,37 @@
             var brickOffsetTop = 100;
             var brickOffsetLeft = 100;
 
-            // Option
+            // Options
             var score = 0;
-            var lives = 30;
-            var stage = 1;
+            var lives = 3;
+            var stage = 1; 
 
+            // sound effect
+            var startsound = new Audio();
+            var failsound = new Audio();
+            var paddlesound = new Audio();
+            var deathsound = new Audio();
+            var collisionsound = new Audio();
+            var nextstagesound = new Audio();
+            var victorysound = new Audio();
+            var itemsound = new Audio();
+
+            startsound.src = 'https://www.soundjay.com/button/sounds/button-3.mp3';
+            failsound.src = 'https://www.soundjay.com/button/sounds/button-4.mp3';
+            paddlesound.src = 'https://www.soundjay.com/button/sounds/button-11.mp3';
+            deathsound.src ='https://www.soundjay.com/misc/sounds/fail-buzzer-03.mp3';
+            collisionsound.src = 'https://freesound.org/data/previews/195/195396_3172867-lq.mp3';
+            nextstagesound.src = 'https://www.zapsplat.com/wp-content/uploads/2015/sound-effects-35448/zapsplat_multimedia_game_sound_classic_1_up_007_41730.mp3';
+            victorysound.src = 'https://www.soundjay.com/human/sounds/applause-01.mp3';
+            itemsound.src ='https://www.soundjay.com/misc/sounds/magic-chime-01.mp3';
+
+            // brick index for set item
             var rc1, rr1;
             var rc2, rr2;
-
-            var startButton = document.getElementById('start');
+            var rc3, rr3;
+            
+            rc1 = Math.floor(Math.random() * brickColumnCount);
+            rr1 = Math.floor(Math.random() * brickRowCount);
 
             // Create and Init bricks
             var bricks = [];
@@ -75,6 +95,7 @@
                     bricks[c][r] = { x: 0, y: 0, status: 1, item: 0 };
                 }
             }
+            bricks[rc1][rr1].item = 1;
 
             // Add EventListener
             document.addEventListener("keydown", keyDownHandler, false);
@@ -118,6 +139,8 @@
                         if(b.status > 0) {
                             check = 0;
                             if(x + ballRadius > b.x && x - ballRadius < b.x + brickWidth && y+ballRadius > b.y && y-ballRadius < b.y+brickHeight) {
+                                
+                                // Collision side of brick
                                 if(y+2 > b.y && y-2 < b.y+brickHeight) {
                                     dx = -dx;
                                     dy = -dy;
@@ -125,24 +148,39 @@
                                 dy = -dy;
                                 b.status--;
                                 score++;
+                                collisionsound.play();
+
+                                // Collision item brick
                                 if(b.item == 1) {
                                     disappear();
                                 } else if(b.item == 2) {
                                     expand_paddle();
+                                } else if(b.item == 3) {
+                                    increase_live();
                                 }
                             }
                         }
                     }
                 }
+
+                // No bricks
                 if(check == 1) {
-                    alert("YOU WIN, CONGRATS!" + "\nScore: " + score);
                     stage++;
+
+                    // next stage
                     if(stage == 2) {
+                        nextstagesound.play();
                         stage_2();
                     }
                     else if(stage == 3) {
+                        nextstagesound.play();
                         stage_3();
                     }
+                    else {
+                        alert("YOU WIN, CONGRATS!" + "\nScore: " + score);
+                        victorysound.play();
+                    }
+                    
                     drawBricks();
                 }
             }
@@ -172,6 +210,7 @@
                             bricks[c][r].x = brickX;
                             bricks[c][r].y = brickY;
                             
+                            // bricks
                             ctx.beginPath();
                             ctx.rect(brickX, brickY, brickWidth, brickHeight);
                             if(bricks[c][r].status == 1) {
@@ -183,10 +222,10 @@
                             else if(bricks[c][r].status == 3) {
                                 ctx.fillStyle = "#6CD5FF"
                             }
-                            
                             ctx.fill();
                             ctx.closePath();
                             
+                            // items
                             if(bricks[c][r].item > 0) {
                                 ctx.beginPath();
                                 ctx.arc((brickX+brickWidth/2), (brickY+brickHeight/2), ballRadius, 0, Math.PI*2);
@@ -194,6 +233,8 @@
                                     ctx.fillStyle = "#EB0909";
                                 } else if (bricks[c][r].item == 2) {
                                     ctx.fillStyle = "#2A33E5";
+                                } else if (bricks[c][r].item == 3) {
+                                    ctx.fillStyle = "#9038FF";
                                 }
                                 ctx.fill();
                                 ctx.closePath();
@@ -230,39 +271,53 @@
                 drawLives();
                 drawStage();
                 collisionDetection();
-
+                
+                // If ball reach side of canvas
                 if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
                     dx = -dx;
                 }
+
+                // If ball reach top of canvas
                 if(y + dy < ballRadius) {
                     dy = -dy;
                 }
+
+                // If ball reach bottom of canvas
                 else if(y + dy > canvas.height-ballRadius-40) {
+
+                    // Set bouncing angle, If ball reach on paddle
                     if(x > paddleX - ballRadius && x < paddleX + paddleWidth + ballRadius) {
                         var xx = (paddleX + paddleWidth) - x;
-                        // 74~1
-                        // 74~38    // 왼쪽
-                        // 37~1     // 오른쪽
+
+                        // left on paddle
                         if(xx > (paddleWidth/2)) {
                             dx = (xx/paddleWidth)*speed;
                             if(dx >= 0) {
                                 dx = -dx;
                             }
-                        } else {
+                        } 
+                        
+                        // right on paddle
+                        else {
                             dx = (speed/xx)*10;
                             if(dx < 0) {
                                 dx = -dx;
                             }
                         }
+                        paddlesound.play();
                         dy = -dy;
                     }
+
+                    // If ball reach bottom of canvas
                     else {
                         lives--;
                         if(!lives) {
+                            deathsound.play();
                             alert("GAME OVER" + "\nScore: " + score);
                             document.location.reload();
                         }
                         else {
+                            failsound.play();
                             x = canvas.width/2;
                             y = canvas.height-70;
                             dx = speed;
@@ -272,6 +327,7 @@
                     }
                 }
 
+                // Right or Left Key Down
                 if(rightPressed && paddleX < canvas.width-paddleWidth) {
                     paddleX += 7;
                 }
@@ -281,14 +337,18 @@
 
                 x += dx;
                 y += dy;
+
                 requestAnimationFrame(draw);
             }
 
+            // Init elements of stage2
             function stage_2() {
                 brickColumnCount = 6;
                 brickRowCount = 10;
                 rc1 = Math.floor(Math.random() * brickColumnCount);
                 rr1 = Math.floor(Math.random() * brickRowCount);
+                rc2 = Math.floor(Math.random() * brickColumnCount);
+                rr2 = Math.floor(Math.random() * brickRowCount);
                 x = canvas.width/2;
                 y = canvas.height-70;
                 speed = 7;
@@ -306,8 +366,10 @@
                     }
                 }
                 bricks[rc1][rr1].item = 1;
+                bricks[rc2][rr2].item = 2;
             }
             
+            // Init elements of stage3
             function stage_3() {
                 brickColumnCount = 7;
                 brickRowCount = 10;
@@ -315,6 +377,8 @@
                 rr1 = Math.floor(Math.random() * brickRowCount);
                 rc2 = Math.floor(Math.random() * brickColumnCount);
                 rr2 = Math.floor(Math.random() * brickRowCount);
+                rc3 = Math.floor(Math.random() * brickColumnCount);
+                rr3 = Math.floor(Math.random() * brickRowCount);
                 x = canvas.width/2;
                 y = canvas.height-70;
                 speed = 9;
@@ -335,24 +399,34 @@
                 }
                 bricks[rc1][rr1].item = 1;
                 bricks[rc2][rr2].item = 2;
+                bricks[rc3][rr3].item = 3;
             }
             
+            // Click startbutton
             function start() {
+                startsound.play();
                 draw();
             }
             
-            // 캔버스가 1초동안 사라짐
+            // Disappear canvas for a second
             function disappear() {
+                itemsound.play();
                 canvas.style.visibility="hidden"
                 setTimeout(() => { canvas.style.visibility="visible" }, 1000);
             }
             
-            // 패들이 5초동안 2배 늘어남
+            // Expand paddle for seven seconds
             function expand_paddle() {
-                paddleWidth = 150;
-                setTimeout(() => { paddleWidth = 75; }, 5000);
+                itemsound.play();
+                paddleWidth = 200;
+                setTimeout(() => { paddleWidth = 100; }, 7000);
             }
 
+            // Increase live
+            function increase_live() {
+                itemsound.play();
+                live = live + 2;
+            }
         </script>
     </body>
 </html>
