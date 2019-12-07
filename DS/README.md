@@ -30,6 +30,8 @@
     - [Quiz#4](./quiz.md)
     - [Quiz#5](./quiz5.md)
 
+- [Chapter13 : Search](./ds13.md)
+
 ## Term Project
 
 - [Subway Program](./subway.md)
