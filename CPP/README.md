@@ -22,6 +22,9 @@
 - [4주차](./oop4.md)
 - [5주차](./oop5.md)
 
+- [Chapter_9](./oop9.md)
+- [Chapter_10](./oop10.md)
+
 ## Reports
 
 - [report1](./report.cpp)
