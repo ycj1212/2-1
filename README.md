@@ -28,7 +28,7 @@
 
 - [JAVA](./JAVA/README.md)
 
-- [File Processing](./FP/README.md)
+- [File Structure](./FS/README.md)
 
 #### OCU
 
