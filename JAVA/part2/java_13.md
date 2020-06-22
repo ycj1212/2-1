@@ -44,4 +44,110 @@
 ### 톰캣(tomcat)
 
 - JSP 엔진의 일종
-- 톰캣 = 웹 서버 + JSP 컨테이너
+- 톰캣 = 웹 서버 + JSP 컨테이너  
+
+### 실행 절차
+
+1. 아파치 톰캣 시작
+2. 애플리케이션 폴더 생성
+3. WEB_INF 작성
+4. hello.jsp 작성(UTF-8)
+5. 웹브라우저로 실행(http://localhost:8080/Hello/hello.jsp)
+
+```jsp
+<html>
+<head>
+<title>Hello World</title>
+</head>
+<body>
+<%
+    java.util.Date date = new java.util.Date();
+%>
+안녕하세요? 현재 시각은 <%= date %> 입니다.
+</body>
+</html>
+```
+
+#### JSP 수식
+
+`<%= expression %>`
+
+#### 스크립틀릿
+
+`<% code_block %>`
+
+#### JSP 주석
+
+`<%-- content --%>`
+
+#### JSP 지시어
+
+`<%@ page import="java.util.*" %>`
+
+#### JSP 선언
+
+`<%! Date date; %>`
+
+```jsp
+<%@ page import="java.util.*" %>
+<%!
+    Date date = new Date();
+    Date getDate() {
+        return date;
+    }
+%>
+안녕하세요? 현재 시각은 <%= getDate() %> 입니다.
+```
+
+#### JSP 조건문
+
+```jsp
+<%! int day = 3; %>
+<%  if (day == 1 || day == 7) { %>
+    <p> 오늘은 주말입니다. </p>
+<%  } else { %>
+    <p> 오늘은 주말이 아닙니다. </p>
+<%  } %>
+```
+
+#### JSP 반복문
+
+```jsp
+<%! int fontSize; %>
+<%  for (fontSize=1; fontSize<=6; fontSize++) { %>
+    <font color="red" size="<%= fontSize %>">
+    안녕하세요?
+    </font><br/>
+<%  } %>
+```
+
+#### JSP 예제
+
+```jsp
+<%@ page contentType="text/html; charset=utf-8" language="java %>
+<% 
+String[] array = { "홍길동", "김철수", "김영희" };
+%>
+<%
+    int i=0;
+    for (i=0; i<array.length; i++) {
+        out.print("배열 요소: " + array[i] + "<br/>");
+    }
+%>
+```
+
+#### JSP 난수 예제
+
+```jsp
+<%
+    double r = Math.random();
+    if (r > 0.60) {
+%>      <h2 style="color:red">오늘은 행운의 날입니다!</h2><p>확률: <%= r %></p>
+<%
+    } else {
+%>      <h2>오늘은 평범한 날입니다.</h2><p>확률: <%= r %></p>
+<%
+    }
+%>
+<a href="<%= request.getRequestURI() %>"><h3>다시 시도</h3></a>
+```
