@@ -1,38 +1,108 @@
 import java.awt.*;
 import java.awt.event.*;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 import javax.swing.*;
 import java.util.*;
 
-public class Vote extends JFrame implements ActionListener {
-	ArrayList<MyPanel> list = new ArrayList<MyPanel>();
-	ArrayList<Integer> count = new ArrayList<Integer>();
-	JPanel panel = new JPanel();
-	MyPanel p1, p2;
-	JButton add_button = new JButton("추가하기");
-	JButton remove_button = new JButton("삭제하기");
-	JButton vote_button = new JButton("투표하기");
-	JButton result_button = new JButton("결과보기");
-	JLabel label = new JLabel("투표 목록이 없습니다.");
-	ButtonGroup group = new ButtonGroup();
+public class Server extends JFrame implements ActionListener {
+	ArrayList<MyPanel> list; 	// 투표 목록 저장
+	ArrayList<Integer> count;	// 투표 수 저장
+	JPanel panel, p1, p2;
+	JButton add_button, remove_button, vote_button, result_button;
+	JLabel label;
+	ButtonGroup group;
+	boolean isStarted, isStopped;	// 투표시작, 투표마감 버튼 클릭 유무 확인
 	
-    class MyPanel extends JPanel {
-		JRadioButton radiobutton;
-		JLabel label;
-		JLabel image;
-		ImageIcon ii;
+	/* 클라이언트가 해당 소켓을 통해 접속하면 클라이언트마다 각 스레드를 생성 후 시작 */
+	public Server() {
+		ServerSocket serverSocket;
+		Socket socket;
+		init();
+		try {
+			serverSocket = new ServerSocket(9101);
+			
+			while (true) {
+				socket = null;
+				socket = serverSocket.accept();
+				
+				DataInputStream dis = new DataInputStream(socket.getInputStream());
+				DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
+				
+				Thread t = new ClientHandler(socket, dis, dos);
+				t.start();
+				
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+    /* 클라이언트 스레드의 작업 처리 */
+	class ClientHandler extends Thread {
+		DataInputStream dis;
+		DataOutputStream dos;
+		Socket socket;
 		
-		public MyPanel() {
-			super();
+		public ClientHandler(Socket socket, DataInputStream dis, DataOutputStream dos) {
+			this.socket = socket;
+			this.dis = dis;
+			this.dos = dos;
 		}
-
-        public MyPanel(int top, int left, int bottom, int right) {
-            setBorder(BorderFactory.createEmptyBorder(top, left, bottom, right));
+		
+		@Override
+		public void run() {
+			while (true) {
+				try {
+					// 투표시작 버튼 클릭하기 전까지 대기
+					while (!isStarted) {
+						Thread.sleep(1000);
+					}
+					
+					// 투표 목록들 전달
+					dos.writeInt(list.size());	// 목록 총 개수
+					for (int i=0; i<list.size(); i++) {
+						dos.writeUTF(list.get(i).getName());	// 목록 이름
+						dos.writeUTF(list.get(i).getImage());	// 이미지
+					}
+					
+					int n = dis.readInt();// 투표목록 번호(인덱스)
+					count.set(n, count.get(n)+1);
+					
+                    // 투표마감 버튼 클릭하기 전까지 대기
+					while (!isStopped) {
+						Thread.sleep(1000);
+					}
+					
+					for (int i=0; i<list.size(); i++) {
+						dos.writeInt(count.get(i));	// 투표 수
+					}
+					
+					Thread.sleep(1000);
+					
+					isStarted = false;
+					isStopped = false;
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
 		}
+	}
+	
+    /* 추가된 목록을 표시하는 패널 */
+    class MyPanel extends JPanel {
+        JRadioButton radiobutton;
+        JLabel label, image;
+        ImageIcon ii;
+        String path;
 
-		public MyPanel(String name, String imagePath) {
+        public MyPanel(String name, String imagePath) {
             setBorder(BorderFactory.createEmptyBorder(30, 30, 30, 30));
 			setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 			
+			path = imagePath;
 			label = new JLabel(name);
 			radiobutton = new JRadioButton();
 			ii = new ImageIcon(imagePath);
@@ -54,9 +124,28 @@ public class Vote extends JFrame implements ActionListener {
 		public String getName() {
 			return label.getText();
 		}
+		
+		public String getImage() {
+			return path;
+		}
 	}
 
-    public Vote() {
+    /* 초기화(초기화면) */
+    public void init() {
+        list = new ArrayList<MyPanel>();
+        count = new ArrayList<Integer>();
+        panel = new JPanel();
+		p1 = new JPanel();
+		p2 = new JPanel();
+        add_button = new JButton("추가하기");
+        remove_button = new JButton("삭제하기");
+        vote_button = new JButton("투표시작");
+        result_button = new JButton("결과보기");
+        label = new JLabel("투표 목록이 없습니다.");
+        group = new ButtonGroup();
+        isStarted = false;
+        isStopped = false;
+    	
 		setTitle("제목입니당");
 		setSize(1000, 500);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,11 +172,10 @@ public class Vote extends JFrame implements ActionListener {
         result_button.setFont(new Font("돋움", Font.PLAIN, 30));
 		result_button.addActionListener(this);
 		result_button.setEnabled(false);
-
-		p1 = new MyPanel(100, 0, 50, 0);
+        
+		p1.setBorder(BorderFactory.createEmptyBorder(100, 0, 50, 0));
 		p1.add(label);
 
-		p2 = new MyPanel(0, 0, 0, 0);
 		p2.setLayout(new GridLayout(2, 2, 10, 10));
 		p2.add(add_button);
 		p2.add(remove_button);
@@ -104,11 +192,9 @@ public class Vote extends JFrame implements ActionListener {
         setVisible(true);
 	}
  
+    /* 목록추가 */
 	public void addContent() {
 		JFrame frame = new JFrame();
-		frame.setTitle("목록 추가");
-		frame.setSize(600, 300);
-		frame.setVisible(true);
 		
 		JPanel panel = new JPanel();
 		JPanel p1 = new JPanel();
@@ -124,6 +210,10 @@ public class Vote extends JFrame implements ActionListener {
 		JTextField textField2 = new JTextField(30);
 		JButton button = new JButton("추가");
 
+		frame.setTitle("목록 추가");
+		frame.setSize(600, 300);
+		frame.setVisible(true);
+		
 		label1.setFont(new Font("돋움", Font.PLAIN, 40));
 		button.addActionListener(l -> {
 			if (textField1.getText().equals("")) {}
@@ -168,21 +258,25 @@ public class Vote extends JFrame implements ActionListener {
         frame.add(scroll, BorderLayout.CENTER);
 	}
 	
+    /* 목록제거 */
 	public void removeContent() {
 		JFrame frame = new JFrame();
-		frame.setTitle("목록 제거");
-		frame.setSize(600, 300);
-		frame.setVisible(true);
 		
 		JPanel panel = new JPanel();
 		JPanel p1 = new JPanel();
 		JPanel p2 = new JPanel();
 		JPanel p3 = new JPanel();
-		
+
 		JLabel label = new JLabel("제거할 목록을 선택하세요");
+		ArrayList<JCheckBox> checkBox = new ArrayList<>();
+		JButton button = new JButton("제거");
+		
+		frame.setTitle("목록 제거");
+		frame.setSize(600, 300);
+		frame.setVisible(true);
+		
 		label.setFont(new Font("돋움", Font.PLAIN, 40));
 		
-		ArrayList<JCheckBox> checkBox = new ArrayList<>();
 		p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
 		for (int i=0; i<list.size(); i++) {
 			checkBox.add(new JCheckBox(list.get(i).getName()));
@@ -190,7 +284,6 @@ public class Vote extends JFrame implements ActionListener {
 			p2.add(checkBox.get(i));
 		}
 		
-		JButton button = new JButton("제거");
 		button.addActionListener(l -> {
 			for (int i=0; i<checkBox.size(); i++) {
 				if (checkBox.get(i).isSelected()) {
@@ -215,28 +308,30 @@ public class Vote extends JFrame implements ActionListener {
         frame.add(scroll, BorderLayout.CENTER);
 	}
 	
+    /* 결과보기 */
 	public void printResult() {
 		JFrame frame = new JFrame();
-		frame.setTitle("결과 출력");
-		frame.setSize(600, 300);
-		frame.setVisible(true);
 		
 		JPanel panel = new JPanel();
 		JPanel p1 = new JPanel();
 		JPanel p2 = new JPanel();
 		JPanel p3 = new JPanel();
-		
+
 		JLabel label = new JLabel("결과");
+		JLabel[] labels = new JLabel[list.size()];
+		
+		frame.setTitle("결과 출력");
+		frame.setSize(600, 300);
+		frame.setVisible(true);
+		
 		label.setFont(new Font("돋움", Font.PLAIN, 40));
 		
-		JLabel[] labels = new JLabel[list.size()];
 		p2.setLayout(new BoxLayout(p2, BoxLayout.Y_AXIS));
 		for (int i=0; i<list.size(); i++) {
 			labels[i] = new JLabel(list.get(i).getName() + ": " + count.get(i).toString());
 			labels[i].setAlignmentX(JComponent.CENTER_ALIGNMENT);
 			p2.add(labels[i]);
 		}
-		// 내림차순으로 바꿔보자
 		
 		p1.add(label);
 
@@ -247,21 +342,39 @@ public class Vote extends JFrame implements ActionListener {
 
         JScrollPane scroll = new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         frame.add(scroll, BorderLayout.CENTER);
-	}
 
-	public void doVote() {
-		for (int i=0; i<list.size(); i++) {
-			if (list.get(i).getRadioButton().isSelected()) {
-				count.set(i, count.get(i)+1);
-				break;
-			}
-		}
+		add_button.setEnabled(true);
+		remove_button.setEnabled(true);
+		vote_button.setEnabled(true);
+		result_button.setEnabled(false);
+		
+		list.clear();
+		update();
 	}
 	
+    /* 투표시작 */
+	public void startVote() {
+		isStarted = true;
+		vote_button.setText("투표마감");
+		add_button.setEnabled(false);
+		remove_button.setEnabled(false);
+		result_button.setEnabled(false);
+	}
+	
+    /* 투표마감 */
+	public void stopVote() {
+		isStopped = true;
+		vote_button.setText("투표시작");
+		vote_button.setEnabled(false);
+		result_button.setEnabled(true);
+	}
+	
+    /* 화면 수정 */
 	public void update() {
 		getContentPane().removeAll();
 		panel.removeAll();
 		group.clearSelection();
+		
 		JPanel p = new JPanel();
 
 		for (int i=0; i<list.size(); i++) {
@@ -271,22 +384,23 @@ public class Vote extends JFrame implements ActionListener {
 		
 		if (list.size() != 0) {
 			panel.add(p, BorderLayout.CENTER);
+			vote_button.setEnabled(true);
+			remove_button.setEnabled(true);
 		} else {
 			panel.add(p1, BorderLayout.CENTER);
+			vote_button.setEnabled(false);
+			remove_button.setEnabled(false);
 		}
 		panel.add(p2, BorderLayout.SOUTH);
 		
         JScrollPane scroll = new JScrollPane(panel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         add(scroll, BorderLayout.CENTER);
 		
-		vote_button.setEnabled(true);
-		remove_button.setEnabled(true);
-		result_button.setEnabled(true);
-		
 		revalidate();
 		repaint();
 	}
 
+    /* 버튼 클릭 이벤트 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("추가하기")) {
@@ -295,9 +409,11 @@ public class Vote extends JFrame implements ActionListener {
 		else if (e.getActionCommand().equals("삭제하기")) {
 			removeContent();
 		}
-		else if (e.getActionCommand().equals("투표하기")) {
-			doVote();
-			JOptionPane.showMessageDialog(this, "투표 완료!");
+		else if (e.getActionCommand().equals("투표시작")) {
+			startVote();
+		}
+		else if (e.getActionCommand().equals("투표마감")) {
+			stopVote();
 		}
 		else if (e.getActionCommand().equals("결과보기")) {
 			printResult();
@@ -305,6 +421,6 @@ public class Vote extends JFrame implements ActionListener {
 	}
 	
 	public static void main(String[] args) {
-		Vote v = new Vote();
+		Server server = new Server();
 	}
 }

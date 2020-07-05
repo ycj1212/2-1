@@ -6,7 +6,7 @@
 
 ## part2
 
-주차 | 
+주차 |
 -|-
 [1주차](./part2/java_1.md) |
 [2주차](./part2/java_2.md) |
@@ -21,4 +21,8 @@
 [11주차](./part2/java_12.md) |
 [13주차](./part2/java_13.md) |
 [14주차](./part2/java_14.md) |
-[Final Project](./part2/Vote.java) |
+
+Final Project |
+-|-
+[Server.java](./Server.java) |
+[Client.java](./Client.java) |
