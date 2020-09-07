@@ -30,6 +30,16 @@
 
 - [File Structure](./FS/README.md)
 
+- [Computer Network](./CN/README.md)
+
+- [Database](./DB/README.md)
+
+- [Software Engineering](./SE/README.md)
+
+- [Artificial Intelligence](./AI/README.md)
+
+- [Compiler](./CP/README.md)
+
 #### OCU
 
 - [Android Programming](./AP/README.md)
