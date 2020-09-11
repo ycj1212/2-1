@@ -214,9 +214,44 @@
 
 다른 새로운 글로벌 ISP
 
-글로벌 ISP 간 상호 연결
-    IXP(Internet Exchange Point)
+글로벌 ISP 간 상호 연결  
+- IXP(Internet Exchange Point)
 
 지역 ISP
 
 콘텐트 제공자 네트워크
+- google
+
+오늘날 네트워크의 네트워크는 12개정도의 1-계층 ISP들과 수 십만개의 하위 계층 ISP들로 구성
+- 1-계층 ISP(Sprint, AT&T, NTT)는 국가와 국가 간 담당
+
+POP(Point-of-Presence): ISP 간 연결 접점
+
+### 1.4 패킷 교환 네트워크에서의 지연, 손실과 처리율
+
+#### 1.4.1 패킷 교환 네트워크에서의 지연 개요
+
+패킷 지연 유형
+
+- 노드 처리 지연(nodal processing delay)
+    - 라우터에서의 처리 지연
+    - 패킷 헤더를 조사하고 그 패킷을 어디로 보낼지 결정하는 시간
+    - 패킷의 비트 수준 오류를 조사하는데 필요한 시간 포함
+    - 일반적으로 < ms
+- 큐잉 지연(queuing delay)
+    - 패킷이 큐에서 출력 링크로 전송되기를 기다리는 시간
+    - 라우터 혼잡 수준에 좌우
+        - 이미 큐에 저장된 패킷들 수에 의해 결정
+- 전송 지연(transmission delay)
+    - 패킷의 모든 비트를 링크로 밀어내는(전송) 데 필요한 시간
+    - 저장 후 전달 지연
+    - 전송 지연 = L/R
+        - L = packet length(bits)
+        - R = link bandwidth(bps)
+- 전파 지연(propagation delay)
+    - 출력 링크에서 다음 라우터까지 전파하는데 필요한 시간
+    - 링크의 물리 매체(광섬유, 꼬임쌍선 등)에 좌우
+    - 전파 지연 = d/s
+        - d = 두 라우터 간 거리
+        - s = 매체의 전파 속도
+
